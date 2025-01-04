@@ -1,7 +1,7 @@
 const PositionStatus = {
-  Miss: "⚫️",
+  Miss: "⭕️",
   Blank: "⚪️",
-  Hit: "🔴",
+  Hit: "❌",
   Ship: "🔵",
 };
 
@@ -22,13 +22,18 @@ export class GameBoard {
     this.attackLog = {};
   }
 
-  printBoard() {
+  printGameBoard() {
     for (let i = 0; i < this.size; i++) {
       let line = "";
       for (let j = 0; j < this.size; j++) {
-        const value = this.isBlank(i, j)
+        let value = this.isBlank(i, j)
           ? PositionStatus.Blank
           : PositionStatus.Ship;
+
+        value = this.isInLog(i, j)
+          ? this.attackLog[this.getKeyFromCoords(i, j)]
+          : value;
+
         line += value + " ";
       }
       console.log(line);
@@ -117,6 +122,10 @@ export class GameBoard {
 
   isBlank(x, y) {
     return !(this.getKeyFromCoords(x, y) in this.ships);
+  }
+
+  isInLog(x, y) {
+    return this.getKeyFromCoords(x, y) in this.attackLog;
   }
 
   canPlaceShipVertically(ship, x, y) {
