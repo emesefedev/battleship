@@ -1,4 +1,3 @@
 import "./style.css";
 import "./game.js";
-
-console.log("hello dev");
+import "./ui.js";

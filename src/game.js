@@ -15,21 +15,23 @@ let currentPlayer;
 let enemy;
 let isGameOver = false;
 
-startGame();
+let placingShips = true;
 
-while (!isGameOver) {
-  let x = prompt("Enter coord X:");
-  let y = prompt("Enter coord Y:");
-  console.log(`${currentPlayer.name} attacks ${enemy.name} in ${x}, ${y})`);
-  currentPlayer.attack(enemy, x, y);
+// startGame();
 
-  enemy.printGameBoard();
+// while (!isGameOver) {
+//   let x = prompt("Enter coord X:");
+//   let y = prompt("Enter coord Y:");
+//   console.log(`${currentPlayer.name} attacks ${enemy.name} in ${x}, ${y})`);
+//   currentPlayer.attack(enemy, x, y);
 
-  isGameOver = enemy.isGameOver();
-  if (!isGameOver) changeTurn();
-}
+//   enemy.printGameBoard();
 
-console.log(`${currentPlayer.name} wins!`);
+//   isGameOver = enemy.isGameOver();
+//   if (!isGameOver) changeTurn();
+// }
+
+// console.log(`${currentPlayer.name} wins!`);
 
 function startGame() {
   playerA.placeShip(ship2, 5, 7, "h");

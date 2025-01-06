@@ -1,3 +1,60 @@
+* {
+    margin: 0;
+}
+
 body {
+    padding: 24px;
     background-color: cornflowerblue;
 }
+
+.box {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    background-color: transparent;
+    border: none;
+
+    font-size: 1.75em;
+}
+
+.flex {
+    display: flex;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+.container {
+    flex-wrap: wrap;
+    margin: auto;
+    gap: 2px;
+}
+
+#game-grid-container {
+    display: grid;
+    grid-template-columns: 1fr repeat(2, 2fr);
+    gap: 10px;
+  }
+
+#info-container {
+grid-column: 1;
+grid-row: 1;
+}
+
+#playerA-board-container {
+grid-column: 2;
+grid-row: 1;
+}
+
+#playerB-board-container {
+grid-column: 3;
+grid-row: 1;
+}
+  
