@@ -12,6 +12,10 @@ export class Player {
     if (this.gameBoard != undefined) this.gameBoard.printGameBoard();
   }
 
+  isGameOver() {
+    return this.gameBoard.isGameOver();
+  }
+
   placeShip(ship, x, y, d) {
     this.gameBoard.placeShip(ship, x, y, d);
   }

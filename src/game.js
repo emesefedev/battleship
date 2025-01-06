@@ -10,24 +10,46 @@ const ship5 = new Ship(5);
 const playerA = new Player("playerA");
 const playerB = new Player("playerB", false);
 
-playerA.placeShip(ship2, 5, 7, "h");
-playerA.placeShip(ship3A, 4, 7, "h");
-playerA.placeShip(ship3B, 2, 1, "v");
-playerA.placeShip(ship4, 0, 5, "h");
-playerA.placeShip(ship5, 8, 3, "h");
+let isPlayerATurn = true;
+let currentPlayer;
+let enemy;
+let isGameOver = false;
 
-playerB.placeShip(ship2, 0, 0, "v");
-playerB.placeShip(ship3A, 0, 1, "v");
-playerB.placeShip(ship3B, 0, 2, "v");
-playerB.placeShip(ship4, 0, 3, "v");
-playerB.placeShip(ship5, 0, 4, "v");
+startGame();
 
-// playerA.printGameBoard();
-// console.log("\n");
-// playerB.printGameBoard();
+while (!isGameOver) {
+  let x = prompt("Enter coord X:");
+  let y = prompt("Enter coord Y:");
+  console.log(`${currentPlayer.name} attacks ${enemy.name} in ${x}, ${y})`);
+  currentPlayer.attack(enemy, x, y);
 
-playerA.attack(playerB, 0, 0);
-playerA.attack(playerB, 2, 0);
-playerA.attack(playerB, 1, 0);
+  enemy.printGameBoard();
 
-playerB.printGameBoard();
+  isGameOver = enemy.isGameOver();
+  if (!isGameOver) changeTurn();
+}
+
+console.log(`${currentPlayer.name} wins!`);
+
+function startGame() {
+  playerA.placeShip(ship2, 5, 7, "h");
+  playerA.placeShip(ship3A, 4, 7, "h");
+  playerA.placeShip(ship3B, 2, 1, "v");
+  playerA.placeShip(ship4, 0, 5, "h");
+  playerA.placeShip(ship5, 8, 3, "h");
+
+  playerB.placeShip(ship2, 0, 0, "v");
+  playerB.placeShip(ship3A, 0, 1, "v");
+  playerB.placeShip(ship3B, 0, 2, "v");
+  playerB.placeShip(ship4, 0, 3, "v");
+  playerB.placeShip(ship5, 0, 4, "v");
+
+  currentPlayer = playerA;
+  enemy = playerB;
+}
+
+function changeTurn() {
+  isPlayerATurn = !isPlayerATurn;
+  currentPlayer = isPlayerATurn ? playerA : playerB;
+  enemy = isPlayerATurn ? playerB : playerA;
+}

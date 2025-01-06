@@ -45,6 +45,8 @@ export class GameBoard {
   }
 
   receiveAttack(x, y) {
+    if (this.isInLog(x, y)) throw new Error("Repeated Attack");
+
     let status = PositionStatus.Miss;
 
     if (!this.isBlank(x, y)) {
