@@ -3,6 +3,8 @@ import {
   setPlacingShip,
   getPlacingShips,
   setPlacingShips,
+  getInGame,
+  setInGame,
   placeShipForPlayer,
 } from "./game.js";
 import { ship2, ship3A, ship3B, ship4, ship5, playerA } from "./game.js";
@@ -56,14 +58,8 @@ function generateGrid(container) {
     button.setAttribute("data-index", i.toString());
     button.innerHTML = "⚪️";
 
-    button.addEventListener("click", (event) => {
-      if (
-        getPlacingShip() &&
-        isBlank(event.target) &&
-        addCurrentShipCoordinates(getCoordinates(event.target))
-      )
-        event.target.innerHTML = "🔵";
-    });
+    if (container === playerAContainer) setPlayerAContainerButton(button);
+    if (container === playerBContainer) setPlayerBContainerButton(button);
 
     container.appendChild(button);
   }
@@ -225,6 +221,8 @@ function setupDoneButton() {
       currentShipButton.classList.add("ship-button-done");
 
       if (playerA.hasAllShipsPlaced()) {
+        setPlacingShips(false);
+        setInGame(true);
         placingShipsContainer.classList.add("hide");
         inGameContainer.classList.remove("hide");
       }
@@ -245,5 +243,23 @@ function setCurrentCoordinatesToBlank() {
     );
 
     element.innerHTML = "⚪️";
+  });
+}
+
+function setPlayerAContainerButton(button) {
+  button.addEventListener("click", (event) => {
+    if (
+      getPlacingShips() &&
+      getPlacingShip() &&
+      isBlank(event.target) &&
+      addCurrentShipCoordinates(getCoordinates(event.target))
+    )
+      event.target.innerHTML = "🔵";
+  });
+}
+
+function setPlayerBContainerButton(button) {
+  button.addEventListener("click", (event) => {
+    if (getInGame() && isBlank(event.target)) event.target.innerHTML = "🎯";
   });
 }

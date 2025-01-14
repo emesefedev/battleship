@@ -17,6 +17,7 @@ let isGameOver = false;
 
 let placingShip = false;
 let placingShips = true;
+let inGame = false;
 
 // startGame();
 
@@ -65,6 +66,14 @@ export function getPlacingShips() {
 
 export function setPlacingShips(placingShipsBool) {
   placingShips = placingShipsBool;
+}
+
+export function getInGame() {
+  return inGame;
+}
+
+export function setInGame(inGameBool) {
+  inGame = inGameBool;
 }
 
 export function placeShipForPlayer(player, ship, coords, direction) {
