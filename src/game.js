@@ -15,7 +15,8 @@ let currentPlayer;
 let enemy;
 let isGameOver = false;
 
-let placingShips = false;
+let placingShip = false;
+let placingShips = true;
 
 // startGame();
 
@@ -48,6 +49,14 @@ function changeTurn() {
   isPlayerATurn = !isPlayerATurn;
   currentPlayer = isPlayerATurn ? playerA : playerB;
   enemy = isPlayerATurn ? playerB : playerA;
+}
+
+export function getPlacingShip() {
+  return placingShip;
+}
+
+export function setPlacingShip(placingShipBool) {
+  placingShip = placingShipBool;
 }
 
 export function getPlacingShips() {

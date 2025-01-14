@@ -1,4 +1,6 @@
 import {
+  getPlacingShip,
+  setPlacingShip,
   getPlacingShips,
   setPlacingShips,
   placeShipForPlayer,
@@ -10,6 +12,9 @@ const GAP_SIZE = 2; //px
 
 const playerAContainer = document.querySelector("#playerA-board-container");
 const playerBContainer = document.querySelector("#playerB-board-container");
+
+const placingShipsContainer = document.querySelector("#placing-ships");
+const inGameContainer = document.querySelector("#in-game");
 
 const ship2Button = document.querySelector("#ship2-button");
 const ship3AButton = document.querySelector("#ship3A-button");
@@ -53,7 +58,7 @@ function generateGrid(container) {
 
     button.addEventListener("click", (event) => {
       if (
-        getPlacingShips() &&
+        getPlacingShip() &&
         isBlank(event.target) &&
         addCurrentShipCoordinates(getCoordinates(event.target))
       )
@@ -197,19 +202,19 @@ function setupShipButton(button, ship) {
   button.addEventListener("click", () => {
     if (button.classList.contains("ship-button-done")) return;
 
-    if (getPlacingShips()) {
+    if (getPlacingShip()) {
       setCurrentCoordinatesToBlank();
       clearCurrentShipInfo();
 
       button.classList.remove("ship-button-selected");
 
-      setPlacingShips(false);
+      setPlacingShip(false);
     } else {
       currentShip = ship;
       button.classList.add("ship-button-selected");
 
       currentShipButton = button;
-      setPlacingShips(true);
+      setPlacingShip(true);
     }
   });
 }
@@ -219,12 +224,17 @@ function setupDoneButton() {
     if (confirmShipCoordinates()) {
       currentShipButton.classList.add("ship-button-done");
 
-      setPlacingShips(false);
-      clearCurrentShipInfo();
+      if (playerA.hasAllShipsPlaced()) {
+        placingShipsContainer.classList.add("hide");
+        inGameContainer.classList.remove("hide");
+      }
     } else {
       setCurrentCoordinatesToBlank();
-      clearCurrentCoordinates();
+      currentShipButton.classList.remove("ship-button-selected");
     }
+
+    clearCurrentShipInfo();
+    setPlacingShip(false);
   });
 }
 

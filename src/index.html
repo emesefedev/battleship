@@ -8,16 +8,23 @@
         <h1>Battle Ship</h1>
 
         <div id="game-grid-container">
-            <div id="info-container" class="flex column px-10">
-                <div id="ships-buttons" class="flex container column gap-10">
-                    <button id="ship2-button" class="ship-button-default">Ship (2)</button>
-                    <button id="ship3A-button" class="ship-button-default">Ship (3)</button>
-                    <button id="ship3B-button" class="ship-button-default">Ship (3)</button>
-                    <button id="ship4-button" class="ship-button-default">Ship (4)</button>
-                    <button id="ship5-button" class="ship-button-default">Ship (5)</button>    
+            <div id="info-container">
+                <div id="placing-ships" class="flex column px-10 height-100">
+                    <div id="ships-buttons" class="flex container column gap-10">
+                        <button id="ship2-button" class="ship-button-default">Ship (2)</button>
+                        <button id="ship3A-button" class="ship-button-default">Ship (3)</button>
+                        <button id="ship3B-button" class="ship-button-default">Ship (3)</button>
+                        <button id="ship4-button" class="ship-button-default">Ship (4)</button>
+                        <button id="ship5-button" class="ship-button-default">Ship (5)</button>    
+                    </div>
+    
+                    <button id="done-button" class="mt-auto">Done!</button>
                 </div>
 
-                <button id="done-button" class="mt-auto">Done!</button>
+                <div id="in-game" class="flex column px-10 height-100 hide">
+                    <button id="attack-button" class="m-auto width-100">Attack!</button>
+                </div>
+                
             </div>
 
             <div id="playerA-board-container" class="flex container gap-2">

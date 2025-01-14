@@ -23,4 +23,8 @@ export class Player {
   attack(player, x, y) {
     return player.gameBoard.receiveAttack(x, y);
   }
+
+  hasAllShipsPlaced() {
+    return this.gameBoard.allShipsPlaced();
+  }
 }

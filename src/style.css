@@ -74,6 +74,10 @@ grid-row: 1;
 }
 
 /* MARGIN  */
+.m-auto {
+    margin: auto;
+}
+
 .mt-auto {
     margin-top: auto;
 }
@@ -100,4 +104,16 @@ grid-row: 1;
 .ship-button-done {
     border: none;
     background-color: greenyellow;
+}
+
+.hide {
+    display: none;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.height-100 {
+    height: 100%;
 }

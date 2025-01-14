@@ -118,6 +118,10 @@ export class GameBoard {
     }
   }
 
+  allShipsPlaced() {
+    return this.totalShips === this.maxShips;
+  }
+
   isBetweenBoardLimits(x, y) {
     return x >= 0 && x < this.size && y >= 0 && y < this.size;
   }
