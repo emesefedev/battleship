@@ -18,8 +18,14 @@ body {
     font-size: 1.75em;
 }
 
+/* FLEX  */
+
 .flex {
     display: flex;
+}
+
+.column {
+    flex-direction: column;
 }
 
 .center {
@@ -36,6 +42,8 @@ body {
     margin: auto;
     gap: 2px;
 }
+
+/* GRID  */
 
 #game-grid-container {
     display: grid;
@@ -56,5 +64,16 @@ grid-row: 1;
 #playerB-board-container {
 grid-column: 3;
 grid-row: 1;
+}
+
+/* MARGIN  */
+.mt-auto {
+    margin-top: auto;
+}
+
+/* PADDING */
+.px-10 {
+    padding-right: 10px;
+    padding-left: 10px;
 }
   

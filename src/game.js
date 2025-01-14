@@ -1,13 +1,5 @@
-import { Ship } from "./ship.js";
 import { Player } from "./player.js";
 
-const ship2 = new Ship(2);
-const ship3A = new Ship(3);
-const ship3B = new Ship(3);
-const ship4 = new Ship(4);
-const ship5 = new Ship(5);
-
-const playerA = new Player("playerA");
 const playerB = new Player("playerB", false);
 
 let isPlayerATurn = true;
@@ -15,7 +7,7 @@ let currentPlayer;
 let enemy;
 let isGameOver = false;
 
-let placingShips = true;
+let placingShips = false;
 
 // startGame();
 
@@ -54,4 +46,18 @@ function changeTurn() {
   isPlayerATurn = !isPlayerATurn;
   currentPlayer = isPlayerATurn ? playerA : playerB;
   enemy = isPlayerATurn ? playerB : playerA;
+}
+
+export function getPlacingShips() {
+  return placingShips;
+}
+
+export function setPlacingShips(placingShipsBool) {
+  placingShips = placingShipsBool;
+}
+
+export function placeShipForPlayer(player, ship, coords, direction) {
+  const { x, y } = coords;
+  player.placeShip(ship, x, y, direction);
+  player.printGameBoard();
 }
