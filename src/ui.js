@@ -3,9 +3,7 @@ import {
   setPlacingShips,
   placeShipForPlayer,
 } from "./game.js";
-import { Ship } from "./ship.js";
-
-import { Player } from "./player.js";
+import { ship2, ship3A, ship3B, ship4, ship5, playerA } from "./game.js";
 
 const ELEMENT_SIZE = 32; // px
 const GAP_SIZE = 2; //px
@@ -21,59 +19,19 @@ const ship5Button = document.querySelector("#ship5-button");
 
 const doneButton = document.querySelector("#done-button");
 
-const playerA = new Player("playerA");
-
+let currentShipButton = undefined;
 let currentShip = undefined;
 let currentShipCoordinates = [];
 let currentDirection = undefined;
 
-const ship2 = new Ship(2);
-const ship3A = new Ship(3);
-const ship3B = new Ship(3);
-const ship4 = new Ship(4);
-const ship5 = new Ship(5);
-
 window.addEventListener("load", () => {
-  ship2Button.addEventListener("click", () => {
-    currentShip = ship2;
-    setPlacingShips(true);
-  });
+  setupShipButton(ship2Button, ship2);
+  setupShipButton(ship3AButton, ship3A);
+  setupShipButton(ship3BButton, ship3B);
+  setupShipButton(ship4Button, ship4);
+  setupShipButton(ship5Button, ship5);
 
-  ship3AButton.addEventListener("click", () => {
-    currentShip = ship3A;
-    setPlacingShips(true);
-  });
-
-  ship3BButton.addEventListener("click", () => {
-    currentShip = ship3B;
-    setPlacingShips(true);
-  });
-
-  ship4Button.addEventListener("click", () => {
-    currentShip = ship4;
-    setPlacingShips(true);
-  });
-
-  ship5Button.addEventListener("click", () => {
-    currentShip = ship5;
-    setPlacingShips(true);
-  });
-
-  doneButton.addEventListener("click", () => {
-    if (confirmShipCoordinates()) {
-      setPlacingShips(false);
-      clearCurrentShipInfo();
-    } else {
-      currentShipCoordinates.forEach((coords) => {
-        const element = document.querySelector(
-          `[data-index='${coords.x * 10 + coords.y}']`,
-        );
-
-        element.innerHTML = "⚪️";
-      });
-      clearCurrentCoordinates();
-    }
-  });
+  setupDoneButton();
 
   generateGrid(playerAContainer);
   generateGrid(playerBContainer);
@@ -227,8 +185,55 @@ function clearCurrentShipInfo() {
   currentShip = undefined;
   clearCurrentCoordinates();
   currentDirection = undefined;
+
+  currentShipButton = undefined;
 }
 
 function clearCurrentCoordinates() {
   currentShipCoordinates = [];
+}
+
+function setupShipButton(button, ship) {
+  button.addEventListener("click", () => {
+    if (button.classList.contains("ship-button-done")) return;
+
+    if (getPlacingShips()) {
+      setCurrentCoordinatesToBlank();
+      clearCurrentShipInfo();
+
+      button.classList.remove("ship-button-selected");
+
+      setPlacingShips(false);
+    } else {
+      currentShip = ship;
+      button.classList.add("ship-button-selected");
+
+      currentShipButton = button;
+      setPlacingShips(true);
+    }
+  });
+}
+
+function setupDoneButton() {
+  doneButton.addEventListener("click", () => {
+    if (confirmShipCoordinates()) {
+      currentShipButton.classList.add("ship-button-done");
+
+      setPlacingShips(false);
+      clearCurrentShipInfo();
+    } else {
+      setCurrentCoordinatesToBlank();
+      clearCurrentCoordinates();
+    }
+  });
+}
+
+function setCurrentCoordinatesToBlank() {
+  currentShipCoordinates.forEach((coords) => {
+    const element = document.querySelector(
+      `[data-index='${coords.x * 10 + coords.y}']`,
+    );
+
+    element.innerHTML = "⚪️";
+  });
 }

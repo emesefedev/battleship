@@ -33,6 +33,14 @@ body {
     align-items: center;
 }
 
+.gap-2 {
+    gap: 2px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
 .gap-30 {
     gap: 30px;
 }
@@ -40,7 +48,6 @@ body {
 .container {
     flex-wrap: wrap;
     margin: auto;
-    gap: 2px;
 }
 
 /* GRID  */
@@ -77,3 +84,20 @@ grid-row: 1;
     padding-left: 10px;
 }
   
+/* SHIP BUTTONS */
+.ship-button-default {
+    border: none;
+    border-radius: 32px;
+
+    width: 100px;
+    height: 32px;
+}
+
+.ship-button-selected {
+    border: 2px solid blue;
+}
+
+.ship-button-done {
+    border: none;
+    background-color: greenyellow;
+}
