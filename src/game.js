@@ -2,7 +2,7 @@ import { Player } from "./player.js";
 import { Ship } from "./ship.js";
 
 export const playerA = new Player("playerA");
-const playerB = new Player("playerB", false);
+export const playerB = new Player("playerB", false);
 
 export const ship2 = new Ship(2);
 export const ship3A = new Ship(3);
@@ -41,15 +41,10 @@ function startGame() {
   playerB.placeShip(ship3B, 0, 2, "v");
   playerB.placeShip(ship4, 0, 3, "v");
   playerB.placeShip(ship5, 0, 4, "v");
-
-  currentPlayer = playerA;
-  enemy = playerB;
 }
 
 function changeTurn() {
   isPlayerATurn = !isPlayerATurn;
-  currentPlayer = isPlayerATurn ? playerA : playerB;
-  enemy = isPlayerATurn ? playerB : playerA;
 }
 
 export function getPlacingShip() {
@@ -74,10 +69,4 @@ export function getInGame() {
 
 export function setInGame(inGameBool) {
   inGame = inGameBool;
-}
-
-export function placeShipForPlayer(player, ship, coords, direction) {
-  const { x, y } = coords;
-  player.placeShip(ship, x, y, direction);
-  player.printGameBoard();
 }

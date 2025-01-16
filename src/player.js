@@ -1,4 +1,5 @@
 import { GameBoard } from "./game-board.js";
+import { getRandomInt } from "./utilities.js";
 
 export class Player {
   constructor(name, isReal = true) {
@@ -18,6 +19,22 @@ export class Player {
 
   placeShip(ship, x, y, d) {
     this.gameBoard.placeShip(ship, x, y, d);
+  }
+
+  placeShipRandom(ship) {
+    let x, y, d;
+    do {
+      x = getRandomInt(10);
+      y = getRandomInt(10);
+      d = getRandomInt(2) === 0 ? "h" : "v";
+    } while (!this.canPlaceShip(ship, x, y, d));
+
+    this.placeShip(ship, x, y, d);
+    this.printGameBoard();
+  }
+
+  canPlaceShip(ship, x, y, d) {
+    return this.gameBoard.canPlaceShip(ship, x, y, d).canBePlaced;
   }
 
   attack(player, x, y) {

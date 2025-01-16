@@ -1,5 +1,5 @@
 const PositionStatus = {
-  Miss: "⭕️",
+  Miss: "⚫️",
   Blank: "⚪️",
   Hit: "❌",
   Ship: "🔵",
@@ -76,30 +76,50 @@ export class GameBoard {
     this.attackLog[this.getKeyFromCoords(x, y)] = status;
   }
 
-  placeShip(ship, x, y, d) {
+  canPlaceShip(ship, x, y, d) {
     if (this.totalShips >= this.maxShips)
-      throw new Error("No more ships allowed");
+      return { canBePlaced: false, message: "No more ships allowed" };
 
     if (d !== ShipDirection.Vertical && d !== ShipDirection.Horizontal)
-      throw new Error("Invalid Direction");
+      return { canBePlaced: false, message: "Invalid Direction" };
 
-    if (!this.isBetweenBoardLimits(x, y)) throw new Error("Out Of Limits");
+    if (!this.isBetweenBoardLimits(x, y))
+      return { canBePlaced: false, message: "Out Of Limits" };
 
     if (d === ShipDirection.Vertical) {
       if (
         !this.isBetweenBoardLimits(x + ship.size - 1, y) ||
         !this.canPlaceShipVertically(ship, x, y)
       )
-        throw new Error(`Can't place ship of size ${ship.size} vertically`);
-
-      this.placeShipVertically(ship, x, y);
+        return {
+          canBePlaced: false,
+          message: `Can't place ship of size ${ship.size} vertically`,
+        };
     } else {
       if (
         !this.isBetweenBoardLimits(x, y + ship.size - 1) ||
         !this.canPlaceShipHorizontally(ship, x, y)
       )
-        throw new Error(`Can't place ship of size ${ship.size} horizontally`);
+        return {
+          canBePlaced: false,
+          message: `Can't place ship of size ${ship.size} horizontally`,
+        };
+    }
+    return {
+      canBePlaced: true,
+      message: `Ship placed in (${x}, ${y}) with direction ${d}`,
+    };
+  }
 
+  placeShip(ship, x, y, d) {
+    const canPlaceShipInfo = this.canPlaceShip(ship, x, y, d);
+    if (!canPlaceShipInfo.canBePlaced) {
+      throw new Error(`${canPlaceShipInfo.message}`);
+    }
+
+    if (d === ShipDirection.Vertical) {
+      this.placeShipVertically(ship, x, y);
+    } else {
       this.placeShipHorizontally(ship, x, y);
     }
 

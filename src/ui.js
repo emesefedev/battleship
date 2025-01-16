@@ -5,9 +5,16 @@ import {
   setPlacingShips,
   getInGame,
   setInGame,
-  placeShipForPlayer,
 } from "./game.js";
-import { ship2, ship3A, ship3B, ship4, ship5, playerA } from "./game.js";
+import {
+  ship2,
+  ship3A,
+  ship3B,
+  ship4,
+  ship5,
+  playerA,
+  playerB,
+} from "./game.js";
 
 const ELEMENT_SIZE = 32; // px
 const GAP_SIZE = 2; //px
@@ -25,20 +32,24 @@ const ship4Button = document.querySelector("#ship4-button");
 const ship5Button = document.querySelector("#ship5-button");
 
 const doneButton = document.querySelector("#done-button");
+const attackButton = document.querySelector("#attack-button");
 
 let currentShipButton = undefined;
 let currentShip = undefined;
 let currentShipCoordinates = [];
 let currentDirection = undefined;
 
-window.addEventListener("load", () => {
-  setupShipButton(ship2Button, ship2);
-  setupShipButton(ship3AButton, ship3A);
-  setupShipButton(ship3BButton, ship3B);
-  setupShipButton(ship4Button, ship4);
-  setupShipButton(ship5Button, ship5);
+let currentAttackSelection = undefined;
 
-  setupDoneButton();
+window.addEventListener("load", () => {
+  setShipButton(ship2Button, ship2);
+  setShipButton(ship3AButton, ship3A);
+  setShipButton(ship3BButton, ship3B);
+  setShipButton(ship4Button, ship4);
+  setShipButton(ship5Button, ship5);
+
+  setDoneButton();
+  setAttackButton();
 
   generateGrid(playerAContainer);
   generateGrid(playerBContainer);
@@ -149,7 +160,8 @@ function confirmShipCoordinates() {
   const coords =
     currentDirection === "h" ? getMostLeftCoords() : getMostTopCoords();
 
-  placeShipForPlayer(playerA, currentShip, coords, currentDirection);
+  const { x, y } = coords;
+  playerA.placeShip(currentShip, x, y, currentDirection);
 
   return true;
 }
@@ -194,7 +206,7 @@ function clearCurrentCoordinates() {
   currentShipCoordinates = [];
 }
 
-function setupShipButton(button, ship) {
+function setShipButton(button, ship) {
   button.addEventListener("click", () => {
     if (button.classList.contains("ship-button-done")) return;
 
@@ -215,11 +227,12 @@ function setupShipButton(button, ship) {
   });
 }
 
-function setupDoneButton() {
+function setDoneButton() {
   doneButton.addEventListener("click", () => {
-    if (confirmShipCoordinates()) {
+    if (getPlacingShips() && getPlacingShip() && confirmShipCoordinates()) {
       currentShipButton.classList.add("ship-button-done");
 
+      playerB.placeShipRandom(currentShip);
       if (playerA.hasAllShipsPlaced()) {
         setPlacingShips(false);
         setInGame(true);
@@ -228,7 +241,8 @@ function setupDoneButton() {
       }
     } else {
       setCurrentCoordinatesToBlank();
-      currentShipButton.classList.remove("ship-button-selected");
+      if (currentShipButton != undefined)
+        currentShipButton.classList.remove("ship-button-selected");
     }
 
     clearCurrentShipInfo();
@@ -260,6 +274,23 @@ function setPlayerAContainerButton(button) {
 
 function setPlayerBContainerButton(button) {
   button.addEventListener("click", (event) => {
-    if (getInGame() && isBlank(event.target)) event.target.innerHTML = "🎯";
+    if (getInGame() && isBlank(event.target)) {
+      if (currentAttackSelection != undefined)
+        currentAttackSelection.innerHTML = "⚪️";
+
+      currentAttackSelection = event.target;
+      currentAttackSelection.innerHTML = "🎯";
+    }
+  });
+}
+
+function setAttackButton() {
+  attackButton.addEventListener("click", () => {
+    if (getInGame() && currentAttackSelection != undefined) {
+      const { x, y } = getCoordinates(currentAttackSelection);
+      currentAttackSelection.innerHTML = playerA.attack(playerB, x, y);
+    }
+
+    currentAttackSelection = undefined;
   });
 }
