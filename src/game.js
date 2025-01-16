@@ -11,15 +11,11 @@ export const ship4 = new Ship(4);
 export const ship5 = new Ship(5);
 
 let isPlayerATurn = true;
-let currentPlayer;
-let enemy;
 let isGameOver = false;
 
 let placingShip = false;
 let placingShips = true;
 let inGame = false;
-
-// startGame();
 
 // while (!isGameOver) {
 //   let x = prompt("Enter coord X:");
@@ -35,16 +31,12 @@ let inGame = false;
 
 // console.log(`${currentPlayer.name} wins!`);
 
-function startGame() {
-  playerB.placeShip(ship2, 0, 0, "v");
-  playerB.placeShip(ship3A, 0, 1, "v");
-  playerB.placeShip(ship3B, 0, 2, "v");
-  playerB.placeShip(ship4, 0, 3, "v");
-  playerB.placeShip(ship5, 0, 4, "v");
+export function changeTurn() {
+  isPlayerATurn = !isPlayerATurn;
 }
 
-function changeTurn() {
-  isPlayerATurn = !isPlayerATurn;
+export function getIsPlayerATurn() {
+  return isPlayerATurn;
 }
 
 export function getPlacingShip() {

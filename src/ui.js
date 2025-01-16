@@ -5,6 +5,8 @@ import {
   setPlacingShips,
   getInGame,
   setInGame,
+  getIsPlayerATurn,
+  changeTurn,
 } from "./game.js";
 import {
   ship2,
@@ -286,9 +288,14 @@ function setPlayerBContainerButton(button) {
 
 function setAttackButton() {
   attackButton.addEventListener("click", () => {
-    if (getInGame() && currentAttackSelection != undefined) {
+    if (
+      getInGame() &&
+      getIsPlayerATurn() &&
+      currentAttackSelection != undefined
+    ) {
       const { x, y } = getCoordinates(currentAttackSelection);
       currentAttackSelection.innerHTML = playerA.attack(playerB, x, y);
+      changeTurn();
     }
 
     currentAttackSelection = undefined;
